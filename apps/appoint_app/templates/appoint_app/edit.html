@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Update Appointment</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header>
+            <div style="float: right;">
+                <a href="/logout">Logout</a> | <a href="{% url 'dashboard' %}">Dashboard</a>
+            </div>
+            </header>
+        <div>
+            <h3>Update Appointment:</h3>
+            <form action="/appoint/update/{{task.id}}/" method="post">
+                {%csrf_token%}
+                <input type="text" name="task" placeholder="{{ task.task }}">
+                <br><br>
+                <select name="status">
+                          
+                        <option value="Pending">Pending</option>
+                        <option value="Done">Done</option>
+                        <option value="Missing">Missing</option>
+                        
+                </select>
+                <input type="date" name="apt_date" placeholder="{{ task.date }}">
+                <br><br>
+    
+                <input type="time" name="apt_time" placeholder="{{ task.time }}">
+                <br><br>
+    
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </body>
+</html>

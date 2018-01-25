@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Appointments | Home</title>
+		<style>
+			table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 75%;
+			}
+
+			td, th {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+			}
+
+			tr:nth-child(even) {
+			background-color: #dddddd;
+			}
+		</style>
+	</head>
+	<body>
+		<br><br>
+		<header>
+			<div style="float: right;">
+				<a href="/logout">Logout</a>
+			</div>
+		</header>
+
+		<h1>Welcome, {{request.session.user_name}} !</h1>
+        <br>
+        <br>
+        <h2>Here are your appointments for today, {{ today }}:</h2>
+		<table>
+			<tr>
+				<td>Task</td>
+				<td>Status</td>
+                <td>Time</td>
+                <td>Action</td>
+			</tr>
+			{%for task in curr_apts%}
+			<tr>
+				<td>{{task.task}}</td>
+				<td>{{task.get_status_display}}</td>
+                <td>{{task.time}}</td>
+                {%if task.status != 2%}
+				<td><a href="/appoint/edit/{{task.id}}/">Edit</a> <a href="/appoint/delete/{{task.id}}/">Delete</a></td>
+				{%endif%}
+            </tr>
+            {% endfor %}
+		</table>
+        <h2>Your other appointments:</h2>
+		<table>
+			<tr>
+				<td>Task</td>
+				<td>Date</td>
+				<td>Time</td>
+			</tr>
+			{%for task in later_appoints%}
+			<tr>
+				<td>{{task.task}}</td>
+				<td>{{task.date}}</td>
+                <td>{{task.time}}</td>
+            </tr>
+            {% endfor %}
+		</table>
+        <hr>
+        <h3>Add Appointment:</h3>
+		<form action="/appoint/add" method="post">
+			{%csrf_token%}
+			<input type="date" name="apt_date" placeholder="Enter date for this task">
+			<br><br>
+
+			<input type="time" name="apt_time" placeholder="Enter time for this task">
+			<br><br>
+
+			<input type="text" name="task" placeholder="Enter description of this task">
+			<br><br>
+
+            <input type="submit" value="Add">
+        </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {%if message.tags == 'error'%}
+                    <li style='color: red'>{{ message }}</li>
+                {% elif message.tags == 'success'%}
+                    <li style='color: green'>{{ message }}</li>
+                {% endif %}                   
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </body>
+</html>
