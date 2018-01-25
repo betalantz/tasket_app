@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tasket_app.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "d_appointments_project.settings")
     
     # Different port manage.py file 
     import django
