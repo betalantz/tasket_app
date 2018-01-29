@@ -3,6 +3,7 @@ from ..user_app.models import *
 from models import *
 from django.contrib import messages
 from ..user_app.views import sessionCheck
+import datetime
 # from django.core.urlresolvers import reverse
 
 def test(request):
@@ -40,10 +41,14 @@ def edit(request, task_id):
 
 def update(request, task_id):
     update = Appointment.objects.get(id = task_id)
-    update.task = request.POST['task']
-    # update.status = request.POST['status']
-    update.date = request.POST['apt_date']
-    update.time = request.POST['apt_time']
+    if request.POST['task']:
+        update.task = request.POST['task']
+    if request.POST['status']:
+        update.status = request.POST['status']
+    if request.POST['apt_date']:
+        update.date = request.POST['apt_date']
+    if request.POST['apt_time']:
+        update.time = request.POST['apt_time']
     update.save()
     return redirect ('/appoint')
 

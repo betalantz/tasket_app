@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 		<title>Appointments | Home</title>
 		<style>
 			table {
@@ -22,6 +24,7 @@
 		</style>
 	</head>
 	<body>
+		<div class="container">
 		<br><br>
 		<header>
 			<div style="float: right;">
@@ -32,7 +35,7 @@
 		<h1>Welcome, {{request.session.user_name}} !</h1>
         <br>
         <br>
-        <h2>Here are your appointments for today, {{ today }}:</h2>
+	<h2>Here are your appointments for today, {% now "F j\, Y" %}:</h2>
 		<table>
 			<tr>
 				<td>Task</td>
@@ -46,7 +49,7 @@
 				<td>{{task.get_status_display}}</td>
                 <td>{{task.time}}</td>
                 {%if task.status != 2%}
-				<td><a href="/appoint/edit/{{task.id}}/">Edit</a> <a href="/appoint/delete/{{task.id}}/">Delete</a></td>
+				<td><a class="btn btn-small btn-primary" href="/appoint/edit/{{task.id}}/">Edit</a> <a class="btn btn-small btn-danger" href="/appoint/delete/{{task.id}}/">Delete</a></td>
 				{%endif%}
             </tr>
             {% endfor %}
@@ -70,16 +73,17 @@
         <h3>Add Appointment:</h3>
 		<form action="/appoint/add" method="post">
 			{%csrf_token%}
-			<input type="date" name="apt_date" placeholder="Enter date for this task">
+			<p>Enter date for this task:</p>
+			<input type="date" name="apt_date" placeholder="YYYY-mm-dd">
+			<br><br>
+			<p>Enter time for this task:</p>
+			<input type="time" name="apt_time" placeholder="0:00-23:59">
+			<br><br>
+			<p>Enter description of this task:</p>
+			<input type="text" name="task" placeholder="Description">
 			<br><br>
 
-			<input type="time" name="apt_time" placeholder="Enter time for this task">
-			<br><br>
-
-			<input type="text" name="task" placeholder="Enter description of this task">
-			<br><br>
-
-            <input type="submit" value="Add">
+            <input class="btn btn-primary" type="submit" value="Add">
         </form>
         {% if messages %}
         <ul class="messages">
@@ -91,6 +95,7 @@
                 {% endif %}                   
             {% endfor %}
         </ul>
-        {% endif %}
+		{% endif %}
+	</div>
     </body>
 </html>
